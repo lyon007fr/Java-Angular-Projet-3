@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.openclassrooms.ApiRentals.dto.ApiResponse;
 import com.openclassrooms.ApiRentals.dto.MessagesDTO;
+import com.openclassrooms.ApiRentals.mapper.MessageMapper;
 import com.openclassrooms.ApiRentals.model.Messages;
 
 import com.openclassrooms.ApiRentals.service.MessageService;
@@ -27,23 +28,11 @@ public class MessageController {
      */
 	@PostMapping("/messages")
     public ResponseEntity<ApiResponse> newMessage(@RequestBody MessagesDTO newMessageDTO) {
-        Messages message = convertToEntity(newMessageDTO);
+        Messages message = MessageMapper.convertToEntity(newMessageDTO);
         messageService.savedMessage(message);
         ApiResponse response = new ApiResponse("Message sent with success");
         return ResponseEntity.ok(response);
     }
 
-	/**
-	 * convert a messageDTO to an entity of message type
-	 * @param messageDTO
-	 * @return a message entity
-	 */
-    private Messages convertToEntity(MessagesDTO messageDTO) {
-        Messages message = new Messages();
-        message.setRentalid(messageDTO.getRentalId());
-        message.setOwner(messageDTO.getOwnerId());
-        message.setMessage(messageDTO.getMessage());
-        return message;
-    }
 
 }

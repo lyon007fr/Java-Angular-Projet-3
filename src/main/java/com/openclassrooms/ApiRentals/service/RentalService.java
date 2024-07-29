@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,8 @@ public class RentalService {
 	@Autowired
 	private RentalRepository rentalRepository;
 	
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+	
 	public Iterable<Rentals> getRentals() {
 		return rentalRepository.findAll();
 	}
@@ -45,7 +48,7 @@ public class RentalService {
 		rental.setUpdated(LocalDateTime.now());
 		
 		if (file != null && !file.isEmpty()) {
-            String fileName = file.getOriginalFilename();
+            String fileName = LocalDateTime.now().format(formatter) + file.getOriginalFilename();//ajoute un timestamp au nom du fichier afin de pouvoir identifier une image si plusieurs utilisateur upload la même
             Path filePath = Paths.get(uploadPath, fileName);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
             String fileUrl = "api/uploads/" +fileName;
