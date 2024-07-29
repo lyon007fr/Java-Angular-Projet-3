@@ -84,7 +84,7 @@ public class LoginController {
                 return ResponseEntity.badRequest().body(new ApiResponse("User with the same email already exists"));
             }
 
-            // CReate new user
+            // Create new user
             User newUser = new User();
             newUser.setEmail(userDTO.getEmail());
             newUser.setUsername(userDTO.getName());

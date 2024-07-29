@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.openclassrooms.ApiRentals.dto.UserDTO;
+import com.openclassrooms.ApiRentals.mapper.UserMapper;
 import com.openclassrooms.ApiRentals.model.User;
 import com.openclassrooms.ApiRentals.service.UserService;
 
@@ -41,7 +42,7 @@ public class UserController {
         	}
         
         
-        	UserDTO userDTO = userService.convertToDTO(user);
+        	UserDTO userDTO = UserMapper.convertToDTO(user);
             return ResponseEntity.status(HttpStatus.OK).body(userDTO);
         	
             
@@ -59,7 +60,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
 
-        UserDTO userDTO = userService.convertToDTO(userOptional.get());
+        UserDTO userDTO = UserMapper.convertToDTO(userOptional.get());
         return ResponseEntity.status(HttpStatus.OK).body(userDTO);
     }
     
